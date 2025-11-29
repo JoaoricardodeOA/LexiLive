@@ -4,19 +4,44 @@ on:
   push:
     branches:
       - master
-  
+
+
 jobs:
-build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Use API Key
-      run: echo "The API Key is: ${{ secrets.API_KEY }}"
     
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+        - name: Verify secrets are loaded
+        run: |
+            if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
+                echo "❌ DOCKERHUB_USERNAME is NOT set!"
+                exit 1
+                else
+                echo "✅ DOCKERHUB_USERNAME is set."
+                fi
+
+                if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+                echo "❌ DOCKERHUB_TOKEN is NOT set!"
+                exit 1
+                else
+                echo "✅ DOCKERHUB_TOKEN is set."
+                fi
+
+                if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+                echo "❌ AWS_ACCESS_KEY_ID is NOT set!"
+                exit 1
+                else
+                echo "✅ AWS_ACCESS_KEY_ID is set."
+                fi
+
+                if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+                echo "❌ AWS_SECRET_ACCESS_KEY is NOT set!"
+                exit 1
+                else
+                echo "✅ AWS_SECRET_ACCESS_KEY is set."
+                fi
+
       - name: Checkout repo
         uses: actions/checkout@v3
 
