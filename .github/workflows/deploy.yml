@@ -1,0 +1,51 @@
+name: CI/CD Lightsail
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build FastAPI
+      - name: Build FastAPI
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:master backend/
+
+      # Push FastAPI
+      - name: Push FastAPI
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:master
+
+      # Build EXPO
+      - name: Build Expo
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/expo:master lexilive-project/LexiLive/
+
+      # Push EXPO
+      - name: Push Expo
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/expo:master
+
+      # Configure AWS
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Deploy to Lightsail
+      - name: Deploy to Lightsail
+        run: |
+          aws lightsail create-container-service-deployment \
+            --service-name ${{ secrets.LIGHTSAIL_SERVICE_NAME }} \
+            --containers file://containers-master.json

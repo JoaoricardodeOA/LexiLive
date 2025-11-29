@@ -1,0 +1,12 @@
+{
+  "containers": {
+    "backend": {
+      "image": "DOCKER_USER/backend:master",
+      "ports": { "8000": "HTTP" }
+    },
+    "expo": {
+      "image": "DOCKER_USER/expo:master",
+      "ports": { "8081": "HTTP" }
+    }
+  }
+}
