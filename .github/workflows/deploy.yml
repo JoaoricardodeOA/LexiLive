@@ -4,8 +4,15 @@ on:
   push:
     branches:
       - master
-
+  
 jobs:
+build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use API Key
+      run: echo "The API Key is: ${{ secrets.API_KEY }}"
+    
   deploy:
     runs-on: ubuntu-latest
 
