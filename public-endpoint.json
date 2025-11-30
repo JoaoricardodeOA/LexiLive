@@ -1,0 +1,13 @@
+{
+  "containerName": "backend",
+  "containerPort": 8000,
+  "healthCheck": {
+    "protocol": "HTTP",
+    "path": "/",
+    "successCodes": "200-499",
+    "intervalSeconds": 10,
+    "timeoutSeconds": 5,
+    "healthyThreshold": 2,
+    "unhealthyThreshold": 2
+  }
+}
