@@ -1,39 +1,40 @@
 {
-  "containers": {
-  "backend": {
-  "image": "joaoricardodeoa/my-fastapi-app:master",
-  "command": "uvicorn main:app --host 0.0.0.0 --port 8000",
-  "environment": {
-  "DATABASE_URL": "postgresql://postgres@pgserver:5432/postgres"
-  },
-  "ports": {
-  "8000": "HTTP"
-  }
-  },
-  "expo": {
-  "image": "joaoricardodeoa/my-reactnative-app:master",
-  "command": "npx expo start --host 0.0.0.0",
-  "environment": {},
-  "ports": {
-  "19000": "HTTP",
-  "19001": "HTTP",
-  "19002": "HTTP",
-  "8081": "HTTP"
-  }
-  }
-  },
-  "publicEndpoint": {
-  "containerName": "backend",
-  "containerPort": 8000,
-  "healthCheck": {
-  "protocol": "HTTP",
-  "path": "/",
-  "successCodes": "200",
-  "intervalSeconds": 10,
-  "timeoutSeconds": 5,
-  "healthyThreshold": 2,
-  "unhealthyThreshold": 2
-  }
-  }
+"containers": [
+{
+"name": "backend",
+"image": "joaoricardodeoa/my-fastapi-app:master",
+"command": "uvicorn main:app --host 0.0.0.0 --port 8000",
+"environment": {
+"DATABASE_URL": "postgresql://postgres@pgserver:5432/postgres"
+},
+"ports": {
+"8000": "HTTP"
 }
-
+},
+{
+"name": "expo",
+"image": "joaoricardodeoa/my-reactnative-app:master",
+"command": "npx expo start --host 0.0.0.0",
+"environment": {},
+"ports": {
+"19000": "HTTP",
+"19001": "HTTP",
+"19002": "HTTP",
+"8081": "HTTP"
+}
+}
+],
+"publicEndpoint": {
+"containerName": "backend",
+"containerPort": 8000,
+"healthCheck": {
+"protocol": "HTTP",
+"path": "/",
+"successCodes": "200",
+"intervalSeconds": 10,
+"timeoutSeconds": 5,
+"healthyThreshold": 2,
+"unhealthyThreshold": 2
+}
+}
+}

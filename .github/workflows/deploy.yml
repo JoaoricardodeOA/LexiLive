@@ -72,4 +72,6 @@ jobs:
         run: |
           aws lightsail create-container-service-deployment \
             --service-name ${{ secrets.LIGHTSAIL_SERVICE_NAME }} \
-            --containers file://containers-master.json
+            --containers file://containers-master.json \
+            --public-endpoint file://containers-master.json \
+            --region us-east-1
