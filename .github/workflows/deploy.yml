@@ -73,8 +73,7 @@ jobs:
             --min-instances 0 \
             --allow-unauthenticated \
             --timeout 300s \
-            --memory 1Gi \
-            --set-env-vars DATABASE_URL='${{ secrets.LOCAL_DB_SERVICE_URL }}'
+            --memory 1Gi 
 
 
       # ====================================================
