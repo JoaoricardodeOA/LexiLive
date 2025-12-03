@@ -75,8 +75,7 @@ jobs:
             --min-instances 0 \
             --allow-unauthenticated \
             --timeout 300s \
-            --port 8000 \
-            --set-env-vars PORT=8000
+            --port 8000 
             
 
       # ====================================================
