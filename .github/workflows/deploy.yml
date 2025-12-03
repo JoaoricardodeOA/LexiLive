@@ -35,17 +35,16 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       # ====================================================
-      # 3. POSTGRESQL: BUILD E PUSH
+      # 3. POSTGRESQL: BUILD
       # ====================================================
-      - name: Build and Push PostgreSQL
+      - name: Deploy PostgreSQL (Pre-built Image) to Cloud Run
         run: |
-          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/postgres-demo:latest
-          docker build -t $IMAGE_URL CAMINHO/PARA/O/DOCKERFILE/DO/POSTGRES/
-          docker push $IMAGE_URL
-
-      - name: Deploy PostgreSQL to Cloud Run
-        run: |
-          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/postgres-demo:latest
+          # Define a URL da imagem no Docker Hub
+          # Use o nome da imagem original no Docker Hub, ex: postgres:16-alpine
+          # Se for uma imagem sua, use: ${{ env.DOCKER_REPO_PREFIX }}/my-postgres-db:latest
+          IMAGE_URL="postgres:16-alpine" # <-- Ajuste para o nome exato da sua imagem no Docker Hub!
+          
+          # Deploy no Cloud Run
           gcloud run deploy postgres-db-demo \
             --image $IMAGE_URL \
             --region ${{ secrets.GCP_REGION }} \
