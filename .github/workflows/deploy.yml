@@ -37,6 +37,7 @@ jobs:
       # ====================================================
       # 3. POSTGRESQL: BUILD
       # ====================================================
+      
       - name: Deploy PostgreSQL (Pre-built Image) to Cloud Run
         run: |
           # Define a URL da imagem no Docker Hub
