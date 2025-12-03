@@ -76,7 +76,7 @@ jobs:
             --allow-unauthenticated \
             --timeout 300s \
             --memory 1Gi \
-            --set-env-vars DATABASE_URL=${{ secrets.LOCAL_DB_SERVICE_URL }}
+            --set-env-vars DATABASE_URL='${{ secrets.LOCAL_DB_SERVICE_URL }}'
             
 
       # ====================================================
