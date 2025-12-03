@@ -49,7 +49,6 @@ jobs:
             --platform managed \
             --quiet \
             --min-instances 0 \
-            --no-allow-unauthenticated \
             --port 5432 \
             --timeout 60s \
             --set-env-vars POSTGRES_USER=${{ secrets.DB_USER }},POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }},POSTGRES_DB=${{ secrets.DB_NAME }}
@@ -77,17 +76,6 @@ jobs:
             --memory 1Gi \
             --set-env-vars DATABASE_URL='${{ secrets.LOCAL_DB_SERVICE_URL }}'
 
-      # --- NOVO PASSO: ABRIR PERMISSÃO PARA CONEXÃO INTERNA ---
-      - name: Allow Internal Invocation to PostgreSQL DB (For Service-to-Service)
-        run: |
-          # Adiciona a permissão de Invocador (run.invoker) para 'allUsers'
-          # Isso permite que serviços internos (como o FastAPI) se conectem
-          gcloud run services add-policy-binding postgres-db-demo \
-            --member='allUsers' \
-            --role='roles/run.invoker' \
-            --region ${{ secrets.GCP_REGION }} \
-            --platform managed
-            
 
       # ====================================================
       # 5. EXPO: BUILD E PUSH
