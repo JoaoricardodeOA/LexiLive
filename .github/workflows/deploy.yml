@@ -73,7 +73,8 @@ jobs:
             --min-instances 0 \
             --allow-unauthenticated \
             --timeout 300s \
-            --memory 1Gi 
+            --memory 1Gi \
+            --set-env-vars DATABASE_URL='${{ secrets.DATABASE_URL_FINAL }}'
 
 
       # ====================================================
