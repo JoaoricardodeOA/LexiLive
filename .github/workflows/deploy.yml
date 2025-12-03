@@ -37,7 +37,7 @@ jobs:
       # ====================================================
       # 3. POSTGRESQL: BUILD
       # ====================================================
-      
+
       - name: Deploy PostgreSQL (Pre-built Image) to Cloud Run
         run: |
           # Define a URL da imagem no Docker Hub
@@ -53,6 +53,7 @@ jobs:
             --quiet \
             --min-instances 0 \
             --no-allow-unauthenticated
+            --port 5432
 
       # ====================================================
       # 4. FASTAPI: BUILD E PUSH
