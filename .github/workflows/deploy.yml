@@ -54,7 +54,6 @@ jobs:
             --timeout 60s \
             --set-env-vars POSTGRES_USER=${{ secrets.DB_USER }},POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }},POSTGRES_DB=${{ secrets.DB_NAME }}
 
-
       # ====================================================
       # 4. FASTAPI: BUILD E PUSH
       # ====================================================
