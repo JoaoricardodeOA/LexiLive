@@ -74,7 +74,7 @@ jobs:
             --quiet \
             --min-instances 0 \
             --allow-unauthenticated \
-            --timeout 300s 
+            --timeout 300s \
             --memory 1Gi
             
 
