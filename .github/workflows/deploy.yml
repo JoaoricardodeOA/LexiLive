@@ -74,6 +74,8 @@ jobs:
             --quiet \
             --min-instances 0 \
             --allow-unauthenticated
+            --timeout 300s \
+            --port 8000
 
       # ====================================================
       # 5. EXPO: BUILD E PUSH
