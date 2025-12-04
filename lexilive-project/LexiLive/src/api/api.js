@@ -1,5 +1,6 @@
 export const API_URL = "https://fastapi-backend-prod-1000425486738.us-central1.run.app";
 
+
 export async function registerUser(name, email, password) {
   try {
     const response = await fetch(`${API_URL}/register`, {
