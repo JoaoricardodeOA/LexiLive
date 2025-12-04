@@ -94,5 +94,5 @@ jobs:
             --platform managed \
             --quiet \
             --min-instances 0 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
             --port 8081
