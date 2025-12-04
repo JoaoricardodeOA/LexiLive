@@ -95,4 +95,5 @@ jobs:
             --quiet \
             --min-instances 0 \
             --allow-unauthenticated \
+            --memory 1Gi \
             --port 8081
