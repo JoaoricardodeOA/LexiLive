@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - master
+      - staging
 
 # Variáveis de ambiente globais
 env:
-  DOCKER_REPO_PREFIX: ${{ secrets.DOCKER_USERNAME }} # Prefixo para as imagens (seu_usuario/)
+  DOCKER_REPO_PREFIX: ${{ secrets.DOCKER_USERNAME }} # Prefixo para as imagens (usuario/)
+  ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'prod' || 'staging' }} 
+  FASTAPI_SERVICE_NAME: fastapi-backend-${{ github.ref == 'refs/heads/master' && 'prod' || 'staging' }}
+  EXPO_SERVICE_NAME: expo-frontend-${{ github.ref == 'refs/heads/master' && 'prod' || 'staging' }}
 
 jobs:
   deploy:
@@ -35,15 +39,14 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       # ====================================================
-      # 3. POSTGRESQL: BUILD
+      # 3. POSTGRESQL: DEPLOY
       # ====================================================
-      - name: Deploy PostgreSQL (Pre-built Image) to Cloud Run
+      - name: Deploy PostgreSQL Image to Cloud Run
         run: |
-          # Certifique-se de que esta é a URL correta da sua imagem
-          IMAGE_URL="postgres:16-alpine" 
+          IMAGE_URL="${{ env.DOCKER_REPO_PREFIX }}/my-postgres-db" 
           
           # Deploy no Cloud Run com Variáveis de Ambiente e Timeout
-          gcloud run deploy postgres-db-demo \
+          gcloud run deploy postgres-db \
             --image $IMAGE_URL \
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
@@ -58,14 +61,14 @@ jobs:
       # ====================================================
       - name: Build and Push FastAPI
         run: |
-          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:latest
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:${{ env.ENVIRONMENT }}
           docker build -t $IMAGE_URL backend/
           docker push $IMAGE_URL
 
       - name: Deploy FastAPI to Cloud Run
         run: |
-          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:latest
-          gcloud run deploy fastapi-backend-prod \
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:${{ env.ENVIRONMENT }}
+          gcloud run deploy ${{ env.FASTAPI_SERVICE_NAME }} \
             --image $IMAGE_URL \
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
@@ -81,14 +84,14 @@ jobs:
       # ====================================================
       - name: Build and Push Expo
         run: |
-          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/expo-app:latest
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/expo-app:${{ env.ENVIRONMENT }}
           docker build -t $IMAGE_URL lexilive-project/LexiLive/
           docker push $IMAGE_URL
 
       - name: Deploy Expo App to Cloud Run
         run: |
-          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/expo-app:latest
-          gcloud run deploy expo-frontend-prod \
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/expo-app:${{ env.ENVIRONMENT }}
+          gcloud run deploy ${{ env.EXPO_SERVICE_NAME }} \
             --image $IMAGE_URL \
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
