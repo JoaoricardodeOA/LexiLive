@@ -54,6 +54,7 @@ jobs:
             --min-instances 0 \
             --port 5432 \
             --timeout 60s \
+            --allow-unauthenticated \
             --set-env-vars POSTGRES_USER=${{ secrets.DB_USER }},POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }},POSTGRES_DB=${{ secrets.DB_NAME }}
  
       # ====================================================
@@ -98,5 +99,5 @@ jobs:
             --quiet \
             --min-instances 0 \
             --allow-unauthenticated \
-            --memory 1Gi \
+            --memory 1.5Gi \
             --port 8081
