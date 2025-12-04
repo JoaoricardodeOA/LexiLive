@@ -1,4 +1,4 @@
-export const API_URL = "http://192.168.0.62:8000";
+export const API_URL = "https://fastapi-backend-prod-1000425486738.us-central1.run.app";
 
 export async function registerUser(name, email, password) {
   try {
