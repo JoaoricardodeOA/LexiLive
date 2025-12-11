@@ -51,7 +51,6 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 # Dependência para proteger rotas
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-
 model = YOLO("best.pt")  # <-- path to your model
 
 # Configuração do Neon
