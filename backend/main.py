@@ -54,6 +54,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 model = YOLO("best.pt")  # <-- path to your model
 
 # Configuração do Neon
+
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 'postgresql://neondb_owner:npg_1VpXQlR7FAzt@ep-patient-tooth-a8keey1o-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require')
 
