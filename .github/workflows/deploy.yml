@@ -59,34 +59,34 @@ jobs:
       # ====================================================
       # 4. FASTAPI: BUILD E PUSH
       # ====================================================
-      # - name: Build and Push FastAPI
-      #   run: |
-      #     IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:${{ env.ENVIRONMENT }}
-      #     docker build -t $IMAGE_URL backend/
-      #     docker push $IMAGE_URL
+      - name: Build and Push FastAPI
+        run: |
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:${{ env.ENVIRONMENT }}
+          docker build -t $IMAGE_URL backend/
+          docker push $IMAGE_URL
 
-      # - name: Deploy FastAPI to Cloud Run
-      #   run: |
-      #     IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:${{ env.ENVIRONMENT }}
-      #     gcloud run deploy ${{ env.FASTAPI_SERVICE_NAME }} \
-      #       --image $IMAGE_URL \
-      #       --region ${{ secrets.GCP_REGION }} \
-      #       --platform managed \
-      #       --quiet \
-      #       --min-instances 0 \
-      #       --allow-unauthenticated \
-      #       --timeout 300s \
-      #       --memory 1Gi \
-      #       --port 8000
+      - name: Deploy FastAPI to Cloud Run
+        run: |
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/backend-api:${{ env.ENVIRONMENT }}
+          gcloud run deploy ${{ env.FASTAPI_SERVICE_NAME }} \
+            --image $IMAGE_URL \
+            --region ${{ secrets.GCP_REGION }} \
+            --platform managed \
+            --quiet \
+            --min-instances 0 \
+            --allow-unauthenticated \
+            --timeout 300s \
+            --memory 1Gi \
+            --port 8000
 
       # ====================================================
       # 5. EXPO: BUILD E PUSH
       # ====================================================
-      # - name: Build and Push Expo
-      #   run: |
-      #     IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/expo-app:${{ env.ENVIRONMENT }}
-      #     docker build -t $IMAGE_URL lexilive-project/LexiLive/
-      #     docker push $IMAGE_URL
+      - name: Build and Push Expo
+        run: |
+          IMAGE_URL=${{ env.DOCKER_REPO_PREFIX }}/expo-app:${{ env.ENVIRONMENT }}
+          docker build -t $IMAGE_URL lexilive-project/LexiLive/
+          docker push $IMAGE_URL
 
       - name: Deploy Expo App to Cloud Run
         run: |
